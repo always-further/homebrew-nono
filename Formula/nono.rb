@@ -7,11 +7,11 @@ class Nono < Formula
   on_macos do
     on_arm do
       url "https://github.com/lukehinds/nono/releases/download/v0.2.3/nono-v0.2.3-aarch64-apple-darwin.tar.gz"
-      sha256 "9da3f0548c0902a82cf4ff62aae6ffd6a6e5731146629203cfce08ee459bb0ab"
+      sha256 "63adf27eba7622b68799288bf7a84781038552570753842cadeea1b08f1a331c"
     end
     on_intel do
       url "https://github.com/lukehinds/nono/releases/download/v0.2.3/nono-v0.2.3-x86_64-apple-darwin.tar.gz"
-      sha256 "30df8a1e3ef4158bb4e00417459fa56272498a3435e370e647999918210c3749"
+      sha256 "beb587509ede592935aa450575dd461080aff02688c3819bc74958f07c3c8247"
     end
   end
 
