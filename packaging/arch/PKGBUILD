@@ -1,4 +1,6 @@
 # Maintainer: Luke Hinds <lukehinds@gmail.com>
+# Contributor: Orhun Parmaksız <orhun@archlinux.org>
+
 pkgname=nono
 pkgver=0.1.0
 pkgrel=1
@@ -6,29 +8,33 @@ pkgdesc="Capability-based shell for AI agents with OS-enforced sandboxing"
 arch=('x86_64' 'aarch64')
 url="https://github.com/lukehinds/nono"
 license=('Apache-2.0')
-depends=()
-makedepends=('cargo' 'git')
-provides=('nono')
-conflicts=('nono-git')
-source=("$pkgname-$pkgver.tar.gz::https://github.com/lukehinds/nono/archive/v$pkgver.tar.gz")
-sha256sums=('PLACEHOLDER')
+depends=('dbus')
+makedepends=('cargo')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+prepare() {
+  cd "$pkgname-$pkgver"
+  cargo fetch --locked --target host-tuple
+}
 
 build() {
-    cd "$pkgname-$pkgver"
-    export RUSTUP_TOOLCHAIN=stable
-    export CARGO_TARGET_DIR=target
-    cargo build --release --locked
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  export CARGO_TARGET_DIR=target
+  cargo build --release --frozen
 }
 
 check() {
-    cd "$pkgname-$pkgver"
-    export RUSTUP_TOOLCHAIN=stable
-    cargo test --release --locked
+  cd "$pkgname-$pkgver"
+  export RUSTUP_TOOLCHAIN=stable
+  cargo test --frozen
 }
 
 package() {
-    cd "$pkgname-$pkgver"
-    install -Dm0755 -t "$pkgdir/usr/bin/" "target/release/nono"
-    install -Dm0644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
-    install -Dm0644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+  cd "$pkgname-$pkgver"
+  install -Dm 755 "target/release/$pkgname" "$pkgdir/usr/bin/$pkgname"
+  install -Dm 644 README.md -t "$pkgdir/usr/share/doc/$pkgname"
 }
+
+# vim: ts=2 sw=2 et:
